@@ -9,12 +9,13 @@ class DetailsView extends React.Component {
         this.state = {
             boxScore: {},
             loading: false,
+            home: true,
         }
     };
     componentWillMount(props) {
         this.setState({
             loading: true,
-        })
+        });
         let boxScore;
         let gameDataDirectory = this.props.gameDataDirectory;
         axios.post('http://localhost:8080/boxscore', {gameDataDirectory})
@@ -27,8 +28,14 @@ class DetailsView extends React.Component {
         })
         .catch((error) => {
             console.log(error);
-        })
-    }
+        });
+    };
+    toggleTeams = (boolean) => {
+        let home = boolean;
+        this.setState({
+            home: home,
+        });
+    };
     render() {
         if (this.state.loading) {
             console.log('loading')
@@ -37,11 +44,10 @@ class DetailsView extends React.Component {
         return (
             <div className="container">
                 <div className="row">
-            
-                    <ScoreBoard boxScore={this.state.boxScore}
-                                />
-
-                    <BoxScore/>
+                    <ScoreBoard boxScore={this.state.boxScore}/>
+                    <BoxScore boxScore={this.state.boxScore}
+                              home={this.state.home}
+                              toggleTeams={this.toggleTeams}/>
                 </div>
             </div>
         );

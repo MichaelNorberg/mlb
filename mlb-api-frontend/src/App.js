@@ -10,7 +10,6 @@ class App extends Component {
     super();
     this.state = {
       games: [/* {homeTeam: '', awayTeam: '', status: '', homeScore: '', awayScore: ''} */],
-      boxScore: [],
       gameDataDirectory: "",
     };
   };
@@ -56,19 +55,7 @@ class App extends Component {
     console.log(gameDataDirectory);
     this.setState({
       gameDataDirectory: gameDataDirectory,
-    })
-    /* axios.post('http://localhost:8080/boxscore', {gameDataDirectory})
-      .then((results) => {
-        let boxScore = results.data;
-        this.setState({
-            boxScore: boxScore,
-            boxScoreReady: true,
-        });
-        console.log(this.state.boxScore.lineScore[0].inning);
-      })
-      .catch((error) => {
-        console.log(error);
-      }); */
+    });
   };
   render() {
     return (
@@ -96,7 +83,6 @@ class App extends Component {
                                                                        getGameData={this.getGameData}
                                                                        getBoxScore={this.getBoxScore}/>}}/>
             <Route path= "/:gameID" exact render={(props)=> {return <DetailsView match={props.match}
-                                                                                 boxScore={this.state.boxScore}
                                                                                  gameDataDirectory={this.state.gameDataDirectory}/>}}/>
         </Switch>
       </div>

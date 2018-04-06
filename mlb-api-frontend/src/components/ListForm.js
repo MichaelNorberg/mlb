@@ -3,16 +3,13 @@ import React from 'react';
 class ListView extends React.Component{
     collectData = (event) => {
         event.preventDefault();
-        /* let searchTerm = {searchTerm: this.refs.search.value.toLowerCase()}; */
-        let date = this.refs.date.value.split("-")
-        console.log(date)
+        let date = this.refs.date.value.split("-");
+        /* console.log(date) */
         let year = date[0];
         let month = date[1];
-        let day = date[2]
-        console.log(year, month, day)
+        let day = date[2];
+        /* console.log(year, month, day) */
         this.props.getGameData(year, month, day);
-        /* this.search(searchTerm); */
-        /* this.refs.date.value = ''; */
       };
     render() {
         return (

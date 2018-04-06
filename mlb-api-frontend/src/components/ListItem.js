@@ -8,7 +8,8 @@ class ListItem extends React.Component{
         };
         return (
             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <Link to={"/" + this.props.homeTeam + "vs" + this.props.awayTeam} onClick={() => {this.props.getBoxScore(this.props.gameDataDirectory)}}>
+                <Link to={"/" + this.props.homeTeam + "vs" + this.props.awayTeam} 
+                      onClick={() => {this.props.getBoxScore(this.props.gameDataDirectory)}}>
                     <table class="table table-dark">
                         <thead>
                             <tr>
