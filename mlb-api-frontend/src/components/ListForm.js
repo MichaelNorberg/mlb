@@ -13,11 +13,11 @@ class ListView extends React.Component{
       };
     render() {
         return (
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 centerCol formStyle">
                 <form>
-                    <label for="Date">Select Date </label>
-                    <input id="date" type="date" ref="date"/>
-                    <button onClick={this.collectData} className="btn btn-outline-dark" type="submit">Search</button>
+                    <label className="elementMarginStyle" for="Date">Select Date </label>
+                    <input className="elementMarginStyle" id="date" type="date" ref="date"/>
+                    <button onClick={this.collectData} className="btn btn-outline-dark elementMarginStyle" type="submit">Search</button>
                 </form>
             </div>
         );

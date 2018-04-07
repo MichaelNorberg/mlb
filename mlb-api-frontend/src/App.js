@@ -30,21 +30,12 @@ class App extends Component {
     console.log(year, month, day);
     axios.post('http://localhost:8080/games', {year, month, day})
       .then((results) => {
-        if (!Array.isArray(results.data)) {
-          let games = [];
-          games.push(results.data)
-          this.setState({
+        let games = results.data;
+        this.setState({
             games: games,
-          });
-          console.log(this.state.games)
-        }
-        else {
-          let games = results.data;
-          this.setState({
-              games: games,
-          });
-          console.log(this.state.games);
-        };
+        });
+        console.log(this.state.games);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -60,7 +51,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <NavLink className="navbar-brand" id="navHov" exact to="/">MLB SCORES</NavLink>
           <button className="navbar-toggler" 
                   type="button" 

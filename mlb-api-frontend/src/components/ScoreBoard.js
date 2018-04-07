@@ -24,8 +24,8 @@ class ScoreBoard extends React.Component{
                                     key={i}
                                     />});
         return (
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <table class="table table-dark">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerCol">
+                <table class="table table-dark mt-3">
                     <thead>
                         <tr>
                         <th scope="col">Teams</th>

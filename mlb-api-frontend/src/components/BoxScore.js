@@ -33,13 +33,15 @@ class BoxScore extends React.Component{
                                 />});
         };
         return (
-            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <button onClick={()=>{this.props.toggleTeams(true)}} className="btn btn-outline-dark">
-                    {this.props.boxScore.homeTeam}
-                </button>
-                <button onClick={()=>{this.props.toggleTeams(false)}} className="btn btn-outline-dark">
-                    {this.props.boxScore.awayTeam}
-                </button>
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerCol">
+                <div className="teamButtonStyle">
+                    <button onClick={()=>{this.props.toggleTeams(true)}} className="btn btn-outline-dark elementMarginStyle">
+                        {this.props.boxScore.homeTeam}
+                    </button>
+                    <button onClick={()=>{this.props.toggleTeams(false)}} className="btn btn-outline-dark elementMarginStyle">
+                        {this.props.boxScore.awayTeam}
+                    </button>
+                </div>
                 <table class="table table-dark">
                     <thead>
                         <tr>

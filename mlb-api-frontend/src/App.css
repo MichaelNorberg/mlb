@@ -1,1 +1,15 @@
-
+.centerCol {
+    margin: 0 auto;
+}
+.teamButtonStyle {
+    text-align: center;
+}
+.formStyle {
+    text-align: center;
+}
+.elementMarginStyle {
+    margin: 5%;
+}
+.tableCellStyle {
+    float: right;
+}

@@ -23,7 +23,7 @@ class ListView extends React.Component{
         };
         return (
             <div className="container">
-                <div className="row"></div>
+                <div className="row center"></div>
                 <ListForm getGameData={this.props.getGameData}/>
                 {gameListJSX}
             </div>
