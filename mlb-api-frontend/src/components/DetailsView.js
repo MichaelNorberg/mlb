@@ -13,22 +13,27 @@ class DetailsView extends React.Component {
         }
     };
     componentWillMount(props) {
-        this.setState({
-            loading: true,
-        });
-        let boxScore;
-        let gameDataDirectory = this.props.gameDataDirectory;
-        axios.post('http://localhost:8080/boxscore', {gameDataDirectory})
-        .then((results) => {
-            boxScore = results.data;
+        if (this.props.gameDataDirectory === undefined) {
+            console.log('stats unavailable');
+        }
+        else {
             this.setState({
-                boxScore: boxScore,
-                loading: false,
+                loading: true,
             });
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            let boxScore;
+            let gameDataDirectory = this.props.gameDataDirectory;
+            axios.post('http://localhost:8080/boxscore', {gameDataDirectory})
+            .then((results) => {
+                boxScore = results.data;
+                this.setState({
+                    boxScore: boxScore,
+                    loading: false,
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        };
     };
     toggleTeams = (boolean) => {
         let home = boolean;
@@ -39,8 +44,11 @@ class DetailsView extends React.Component {
     render() {
         if (this.state.loading) {
             console.log('loading')
-            return <h2>Loading...</h2>;
+            return <h2 className="conditionalStyle">Loading...</h2>;
           }
+        else if (this.props.gameDataDirectory === undefined) {
+            return <h2 className="conditionalStyle">Stats unavailable</h2>;
+        }
         return (
             <div className="container">
                 <div className="row">

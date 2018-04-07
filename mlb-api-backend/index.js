@@ -47,35 +47,91 @@ function BoxScore(homeTeam,
     this.awayBatters = awayBatters;
 };
 app.get('/games', (req, res) => {
-    request('http://gd2.mlb.com/components/game/mlb/year_2018/month_04/day_03/master_scoreboard.json', function (error, response, body) {
+    request('http://gd2.mlb.com/components/game/mlb/year_2015/month_10/day_14/master_scoreboard.json', function (error, response, body) {
         if (error) {
             console.log('ERROR! Couldnt access the API because of ' + error);
-        } else {
+        } 
+        else {
             body = JSON.parse(body);
             let gameData = body.data.games.game;
-            let games;
-            console.log(Array.isArray(games))
-            if (!Array.isArray(gameData)) {
-                games = new Game(gameData.home_team_name, 
-                                gameData.away_team_name, 
-                                gameData.status.status, 
-                                gameData.linescore.r.home, 
-                                gameData.linescore.r.away,
-                                gameData.game_data_directory);
-                console.log(games);
+            if (gameData === undefined) {
+                res.send('No Games Today')
+                console.log('no games today')
             }
             else {
-                games = gameData.map((game, i) => {
-                    return new Game(game.home_team_name, 
-                                    game.away_team_name, 
-                                    game.status.status, 
-                                    game.linescore.r.home, 
-                                    game.linescore.r.away,
-                                    game.game_data_directory);
-                })
-                console.log(games);
-            };
-            res.json(games);
+                let games;
+                console.log(Array.isArray(games))
+                if (!Array.isArray(gameData)) {
+                    gameData = Array.of(gameData)
+                    let previewGames = gameData.filter(gameData => gameData.status.status === "Preview")
+                                               .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status,);
+                    });
+                    let postponedGames = gameData.filter(gameData => gameData.status.status === "Postponed")
+                                                 .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status,);
+                    });
+                    let cancelledGames = gameData.filter(gameData => gameData.status.status === "Cancelled")
+                                                 .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status,);
+                    });
+                    let finishedGames = gameData.filter(gameData => gameData.status.status != "Cancelled" && gameData.status.status != "Postponed" && gameData.status.status != "Preview")
+                                                .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status, 
+                                                                    game.linescore.r.home, 
+                                                                    game.linescore.r.away,
+                                                                    game.game_data_directory);
+                    });
+                    console.log(postponedGames);
+                    console.log(cancelledGames);
+                    console.log(finishedGames);
+                    games = finishedGames.concat(postponedGames, cancelledGames, previewGames);
+                    console.log(games);
+                }
+                else {
+                    let previewGames = gameData.filter(gameData => gameData.status.status === "Preview")
+                                               .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status,);
+                    });
+                    let postponedGames = gameData.filter(gameData => gameData.status.status === "Postponed")
+                                                 .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status,);
+                    });
+                    let cancelledGames = gameData.filter(gameData => gameData.status.status === "Cancelled")
+                                                 .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status,);
+                    });
+                    let finishedGames = gameData.filter(gameData => gameData.status.status != "Cancelled" && gameData.status.status != "Postponed" && gameData.status.status != "Preview")
+                                                .map((game, i) => {
+                                                    return new Game(game.home_team_name, 
+                                                                    game.away_team_name, 
+                                                                    game.status.status, 
+                                                                    game.linescore.r.home, 
+                                                                    game.linescore.r.away,
+                                                                    game.game_data_directory);
+                    });
+                    console.log(postponedGames);
+                    console.log(cancelledGames);
+                    console.log(finishedGames);
+                    games = finishedGames.concat(postponedGames, cancelledGames, previewGames);
+                    console.log(games);
+                };
+                res.json(games);
+            }; 
         };
     });
 });

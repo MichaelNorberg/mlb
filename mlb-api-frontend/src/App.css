@@ -13,3 +13,6 @@
 .tableCellStyle {
     float: right;
 }
+.conditionalStyle {
+    text-align: center;
+}

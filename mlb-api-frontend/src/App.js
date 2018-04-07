@@ -9,18 +9,27 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      games: [/* {homeTeam: '', awayTeam: '', status: '', homeScore: '', awayScore: ''} */],
+      games: [],
       gameDataDirectory: "",
+      favoriteTeam:"Blue Jays",
     };
   };
   componentDidMount() { 
     axios.get('http://localhost:8080/games')
         .then((results) => {
             let games = results.data;
+            for(let i = 0; i < games.length; i++) {
+              if(games[i].homeTeam === this.state.favoriteTeam || games[i].awayTeam === this.state.favoriteTeam) {
+                console.log(games[i]);
+                let jaysGame = games[i];
+                games.splice(i, 1)
+                games.splice(0, 0, jaysGame)
+              };
+            };
             this.setState({
                 games: games,
             });
-            console.log(this.state.games)
+            console.log(this.state.games);
         })
         .catch((error) => {
             console.log(error);
@@ -31,6 +40,14 @@ class App extends Component {
     axios.post('http://localhost:8080/games', {year, month, day})
       .then((results) => {
         let games = results.data;
+        for(let i = 0; i < games.length; i++) {
+          if(games[i].homeTeam === this.state.favoriteTeam || games[i].awayTeam === this.state.favoriteTeam) {
+            console.log(games[i]);
+            let jaysGame = games[i];
+            games.splice(i, 1)
+            games.splice(0, 0, jaysGame)
+          };
+        };
         this.setState({
             games: games,
         });
@@ -42,10 +59,15 @@ class App extends Component {
       });
   };
   getBoxScore = (gameDataDirectory) => {
-    console.log('you hit get box score');
     console.log(gameDataDirectory);
     this.setState({
       gameDataDirectory: gameDataDirectory,
+    });
+  };
+  changeTeam = (team) => {
+    let favoriteTeam = team;
+    this.setState({
+      favoriteTeam: favoriteTeam,
     });
   };
   render() {
@@ -72,7 +94,8 @@ class App extends Component {
             <Route path= "/" exact render={(props)=> {return <ListView match={props.match}
                                                                        games={this.state.games}
                                                                        getGameData={this.getGameData}
-                                                                       getBoxScore={this.getBoxScore}/>}}/>
+                                                                       getBoxScore={this.getBoxScore}
+                                                                       changeTeam={this.changeTeam}/>}}/>
             <Route path= "/:gameID" exact render={(props)=> {return <DetailsView match={props.match}
                                                                                  gameDataDirectory={this.state.gameDataDirectory}/>}}/>
         </Switch>

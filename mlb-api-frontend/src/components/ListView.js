@@ -5,8 +5,8 @@ import ListItem from './ListItem';
 class ListView extends React.Component{
     render() {
         let gameListJSX;
-        if (this.props.games[0] === 'No Games Today') {
-            gameListJSX = <h2>No Games Today</h2>
+        if (this.props.games === 'No Games Today') {
+            gameListJSX = <h2 className="conditionalStyle">No Games Today</h2>
         }
         else {
             let gameArray= Array.from(this.props.games);
@@ -24,7 +24,8 @@ class ListView extends React.Component{
         return (
             <div className="container">
                 <div className="row center"></div>
-                <ListForm getGameData={this.props.getGameData}/>
+                <ListForm getGameData={this.props.getGameData}
+                          changeTeam={this.props.changeTeam}/>
                 {gameListJSX}
             </div>
         );
