@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+//represents a single batters line score
 class Batter extends React.Component {
     render() {
         return(

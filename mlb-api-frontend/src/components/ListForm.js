@@ -1,6 +1,7 @@
 import React from 'react';
 
 class ListView extends React.Component{
+    //collects form data (dates) on submit and calls get game data-passes the date
     collectData = (event) => {
         event.preventDefault();
         let date = this.refs.date.value.split("-");
@@ -8,7 +9,8 @@ class ListView extends React.Component{
         let month = date[1];
         let day = date[2];
         this.props.getGameData(year, month, day);
-      };
+    };
+    //collects favorite team data on change and calls change team
     collectTeamData = (event) => {
         event.preventDefault();
         let team = this.refs.team.value;
@@ -19,7 +21,11 @@ class ListView extends React.Component{
             <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 centerCol formStyle">
                 <form>
                     <label className="elementMarginStyle" for="teamSelect">Select Your Team</label>
-                    <select onChange={this.collectTeamData} ref="team" class="form-control elementMarginStyle" id="teamSelect">
+                    <select onChange={this.collectTeamData} 
+                            ref="team" 
+                            value={this.props.favoriteTeam} 
+                            className="form-control elementMarginStyle" 
+                            id="teamSelect">
                         <option>Blue Jays</option>
                         <option>Red Sox</option>
                         <option>Orioles</option>

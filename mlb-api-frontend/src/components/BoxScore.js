@@ -1,6 +1,7 @@
 import React from 'react';
 import Batter from './Batter'
 
+//represnts the box score for a game
 class BoxScore extends React.Component{
     render() {
         let battersJSX;

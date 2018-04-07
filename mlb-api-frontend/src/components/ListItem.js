@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+//represents one game
 class ListItem extends React.Component{
     render() {
         let winnerStyle = {

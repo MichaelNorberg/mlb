@@ -5,6 +5,7 @@ import axios from 'axios';
 import ListView from './components/ListView';
 import DetailsView from './components/DetailsView';
 
+//list View State stored in listView, Details page state stored in Details view
 class App extends Component {
   constructor() {
     super();
@@ -14,13 +15,13 @@ class App extends Component {
       favoriteTeam:"Blue Jays",
     };
   };
+  //makes request for the "BatvFlip" on page load
   componentDidMount() { 
     axios.get('http://localhost:8080/games')
         .then((results) => {
             let games = results.data;
             for(let i = 0; i < games.length; i++) {
               if(games[i].homeTeam === this.state.favoriteTeam || games[i].awayTeam === this.state.favoriteTeam) {
-                console.log(games[i]);
                 let jaysGame = games[i];
                 games.splice(i, 1)
                 games.splice(0, 0, jaysGame)
@@ -29,12 +30,12 @@ class App extends Component {
             this.setState({
                 games: games,
             });
-            console.log(this.state.games);
         })
         .catch((error) => {
             console.log(error);
         });
   };
+  //makes post request with date data on form submit
   getGameData = (year, month, day) => {
     console.log(year, month, day);
     axios.post('http://localhost:8080/games', {year, month, day})
@@ -42,7 +43,6 @@ class App extends Component {
         let games = results.data;
         for(let i = 0; i < games.length; i++) {
           if(games[i].homeTeam === this.state.favoriteTeam || games[i].awayTeam === this.state.favoriteTeam) {
-            console.log(games[i]);
             let jaysGame = games[i];
             games.splice(i, 1)
             games.splice(0, 0, jaysGame)
@@ -51,19 +51,18 @@ class App extends Component {
         this.setState({
             games: games,
         });
-        console.log(this.state.games);
-        
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  //stores the url needed to get boxscore data in state for the game the user clicked
   getBoxScore = (gameDataDirectory) => {
-    console.log(gameDataDirectory);
     this.setState({
       gameDataDirectory: gameDataDirectory,
     });
   };
+  //changes favorite team in state when the user changes it.
   changeTeam = (team) => {
     let favoriteTeam = team;
     this.setState({
@@ -95,7 +94,8 @@ class App extends Component {
                                                                        games={this.state.games}
                                                                        getGameData={this.getGameData}
                                                                        getBoxScore={this.getBoxScore}
-                                                                       changeTeam={this.changeTeam}/>}}/>
+                                                                       changeTeam={this.changeTeam}
+                                                                       favoriteTeam={this.state.favoriteTeam}/>}}/>
             <Route path= "/:gameID" exact render={(props)=> {return <DetailsView match={props.match}
                                                                                  gameDataDirectory={this.state.gameDataDirectory}/>}}/>
         </Switch>

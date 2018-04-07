@@ -3,6 +3,7 @@ import ScoreBoard from './ScoreBoard';
 import BoxScore from './BoxScore';
 import axios from 'axios';
 
+//state for details page stored here
 class DetailsView extends React.Component {
     constructor () {
         super();
@@ -12,6 +13,7 @@ class DetailsView extends React.Component {
             home: true,
         }
     };
+    //makes the request for boxscore data
     componentWillMount(props) {
         if (this.props.gameDataDirectory === undefined) {
             console.log('stats unavailable');
@@ -35,6 +37,7 @@ class DetailsView extends React.Component {
             });
         };
     };
+    //toggles the view of the boxscore based on which team you click
     toggleTeams = (boolean) => {
         let home = boolean;
         this.setState({

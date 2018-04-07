@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
  
 app.use(bodyParser.json());
-
+//constructor for formating list page data
 function Game(homeTeam, 
               awayTeam, 
               status, 
@@ -23,6 +23,7 @@ function Game(homeTeam,
     this.awayScore = awayScore;
     this.gameDataDirectory = gameDataDirectory;
 };
+//constructor for formatting details page data
 function BoxScore(homeTeam, 
                   awayTeam,  
                   homeTeamRuns, 
@@ -46,6 +47,7 @@ function BoxScore(homeTeam,
     this.homeBatters = homeBatters;
     this.awayBatters = awayBatters;
 };
+//end point for request on list page first load. Will always return the date of the "BAT FLIP"
 app.get('/games', (req, res) => {
     request('http://gd2.mlb.com/components/game/mlb/year_2015/month_10/day_14/master_scoreboard.json', function (error, response, body) {
         if (error) {
@@ -55,12 +57,11 @@ app.get('/games', (req, res) => {
             body = JSON.parse(body);
             let gameData = body.data.games.game;
             if (gameData === undefined) {
-                res.send('No Games Today')
-                console.log('no games today')
+                res.send('No Games Today');
+                console.log('No Games Today');
             }
             else {
                 let games;
-                console.log(Array.isArray(games))
                 if (!Array.isArray(gameData)) {
                     gameData = Array.of(gameData)
                     let previewGames = gameData.filter(gameData => gameData.status.status === "Preview")
@@ -90,9 +91,6 @@ app.get('/games', (req, res) => {
                                                                     game.linescore.r.away,
                                                                     game.game_data_directory);
                     });
-                    console.log(postponedGames);
-                    console.log(cancelledGames);
-                    console.log(finishedGames);
                     games = finishedGames.concat(postponedGames, cancelledGames, previewGames);
                     console.log(games);
                 }
@@ -124,9 +122,6 @@ app.get('/games', (req, res) => {
                                                                     game.linescore.r.away,
                                                                     game.game_data_directory);
                     });
-                    console.log(postponedGames);
-                    console.log(cancelledGames);
-                    console.log(finishedGames);
                     games = finishedGames.concat(postponedGames, cancelledGames, previewGames);
                     console.log(games);
                 };
@@ -135,12 +130,12 @@ app.get('/games', (req, res) => {
         };
     });
 });
-
+//end point for when a user selects a custom date and submits it. Returns data for list page.
 app.post('/games', (req, res) => {
     let year = req.body.year;
     let month = req.body.month;
     let day = req.body.day;
-    console.log(year, month, day)
+    console.log(year, month, day);
     let url = 'http://gd2.mlb.com/components/game/mlb/year_' + year + '/month_' + month + '/day_' + day + '/master_scoreboard.json';
     request(url, function (error, response, body) {
         if (error) {
@@ -150,12 +145,11 @@ app.post('/games', (req, res) => {
             body = JSON.parse(body);
             let gameData = body.data.games.game;
             if (gameData === undefined) {
-                res.send('No Games Today')
-                console.log('no games today')
+                res.send('No Games Today');
+                console.log('No Games Today');
             }
             else {
                 let games;
-                console.log(Array.isArray(games))
                 if (!Array.isArray(gameData)) {
                     gameData = Array.of(gameData)
                     let previewGames = gameData.filter(gameData => gameData.status.status === "Preview")
@@ -185,9 +179,6 @@ app.post('/games', (req, res) => {
                                                                     game.linescore.r.away,
                                                                     game.game_data_directory);
                     });
-                    console.log(postponedGames);
-                    console.log(cancelledGames);
-                    console.log(finishedGames);
                     games = finishedGames.concat(postponedGames, cancelledGames, previewGames);
                     console.log(games);
                 }
@@ -219,9 +210,6 @@ app.post('/games', (req, res) => {
                                                                     game.linescore.r.away,
                                                                     game.game_data_directory);
                     });
-                    console.log(postponedGames);
-                    console.log(cancelledGames);
-                    console.log(finishedGames);
                     games = finishedGames.concat(postponedGames, cancelledGames, previewGames);
                     console.log(games);
                 };
@@ -230,11 +218,11 @@ app.post('/games', (req, res) => {
         };
     });
 });
+//end point for when a user clicks on a game. Returns Details page data with scoreboard and boxscore.
 app.post('/boxscore', (req,res) => {
     let gameDataDirectory = req.body.gameDataDirectory;
     console.log(gameDataDirectory);
-    let url = 'http://gd2.mlb.com' + gameDataDirectory + '/boxscore.json'
-    console.log(url);
+    let url = 'http://gd2.mlb.com' + gameDataDirectory + '/boxscore.json';
     let boxScore;
     request(url, function (error, response, body) {
         if (error) {

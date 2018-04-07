@@ -25,7 +25,8 @@ class ListView extends React.Component{
             <div className="container">
                 <div className="row center"></div>
                 <ListForm getGameData={this.props.getGameData}
-                          changeTeam={this.props.changeTeam}/>
+                          changeTeam={this.props.changeTeam}
+                          favoriteTeam={this.props.favoriteTeam}/>
                 {gameListJSX}
             </div>
         );

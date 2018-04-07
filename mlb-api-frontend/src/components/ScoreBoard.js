@@ -3,11 +3,10 @@ import Inning from './Inning';
 import AwayTeamInning from './AwayTeamInning';
 import HomeTeamInning from './HomeTeamInning';
 
+//score board view
 class ScoreBoard extends React.Component{
     render() {
-        console.log(this.props.boxScore)
         let lineScoreArray = Array.from(this.props.boxScore.lineScore);
-        console.log(lineScoreArray);
         let inningJSX;
         inningJSX = lineScoreArray.map((inning, i) => {
             return <Inning inning={inning.inning}
